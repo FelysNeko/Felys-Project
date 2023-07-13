@@ -28,7 +28,7 @@ float fpop(fstack *);
 
 
 int main(void){
-    char *expr = "1+1-4*5/1+(4-1*9/1+9*8/1+0)";
+    char *expr = "1.1+1-4*5/1+(4-1*9/1+9*8/1+0)";
     printf("Original: [ %s ]\n", expr);
 
     cstack oprts;
@@ -46,39 +46,39 @@ int main(void){
 
         level = type(*expr);
         switch (level){
-        case 0:
-            // output figures directly 
-            for (int i=0; !type(*expr); ++i){
-                rpn[row][i] = *expr++;
-            }
-            ++row;
-            break;
-        
-        case -1:
-            // cpush all '('
-            if (*expr == '('){
-                cpush(&oprts, *expr++);
-            // cpop out all the operation signs until cstack top reaches the closest '('
-            } else{
-                while (oprts.body[oprts.top] != '('){
+            case 0:
+                // output figures directly 
+                for (int i=0; !type(*expr); ++i){
+                    rpn[row][i] = *expr++;
+                }
+                ++row;
+                break;
+            
+            case -1:
+                // cpush all '('
+                if (*expr == '('){
+                    cpush(&oprts, *expr++);
+                // cpop out all the operation signs until cstack top reaches the closest '('
+                } else{
+                    while (oprts.body[oprts.top] != '('){
+                        rpn[row++][0] = cpop(&oprts);
+                    }
+                    cpop(&oprts);
+                    expr++;
+                }
+                break;
+
+            default:
+                // convert "-x" to "0-x"
+                if (*expr == '-' && (rpn[0][0]==0 || *(expr-1)=='(')){
+                    rpn[row++][0] = '0';
+                }
+                // cpop out all the operation signs until it clear out cstack or find a sign that is less prior
+                while (oprts.top!=-1 && type(oprts.body[oprts.top]) >= level){
                     rpn[row++][0] = cpop(&oprts);
                 }
-                cpop(&oprts);
-                expr++;
-            }
-            break;
-
-        default:
-            // convert "-x" to "0-x"
-            if (*expr == '-' && (rpn[0][0]==0 || *(expr-1)=='(')){
-                rpn[row++][0] = '0';
-            }
-            // cpop out all the operation signs until it clear out cstack or find a sign that is less prior
-            while (oprts.top!=-1 && type(oprts.body[oprts.top]) >= level){
-                rpn[row++][0] = cpop(&oprts);
-            }
-            cpush(&oprts, *expr++);
-            break;
+                cpush(&oprts, *expr++);
+                break;
         }
     }
 
@@ -102,41 +102,33 @@ int main(void){
     for (int i=0; rpn[i][0]; ++i){
         index = rpn[i][0];
         number = 0.0;
-        
-        switch (type(index)){
-        case 0:
-            // read figure include decimals
+
+        if (!type(index)){
             deci = 0;
+            // read figure include decimals
             for (int c=0; rpn[i][c]!=0; c++){
                 if (rpn[i][c] == '.'){
-                    deci = 1;
-                    continue;
+                    deci = 1; continue;
                 }
                 number = number*10 + rpn[i][c] - 48;
-                if (deci){
-                    number /= 10;
-                }
+                if (deci) number /= 10;
             }
             fpush(&calc, number);
-            break;
-        
-        default:
+            
+        } else{
             // calculations, some math manipulations for subtraction and division
-            switch (index)
-            {
+            switch (index){
                 case '+': fpush(&calc, fpop(&calc)+fpop(&calc)); break;
                 case '-': fpush(&calc, -fpop(&calc)+fpop(&calc)); break;
                 case '*': fpush(&calc, fpop(&calc)*fpop(&calc)); break;
                 case '/': fpush(&calc, 1/fpop(&calc)*fpop(&calc)); break;
             }
-            break;
         }
     }
 
     printf(" -> %.2f\n", fpop(&calc));
     return 0;
 }
-
 
 // functions
 void cinit(cstack *skt){
