@@ -34,7 +34,7 @@ int main(void){
                 }
                 ++row;
                 break;
-            case -1:    // push '(' or clear stack until top reach ')'
+            case -1:    // push '(' or clear stack until top reach '('
                 if (*expr == '('){
                     push(&oprts, *expr++);
                 } else{
@@ -73,7 +73,7 @@ int main(void){
         number = 0.0;
         deci = 0;
 
-        if (!type(index)){  // read figure include decimals
+        if (!type(index)){  // read figure including decimals
             for (int c=0; rpn[i][c]!=0; c++){
                 if (rpn[i][c] == '.'){
                     deci = 1; continue;
