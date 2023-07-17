@@ -195,10 +195,8 @@ void addvar(variables *data, char *name, float figure){
     int c = 0;
     int i;
 
-    for (; c < data->count; ++c){
-        match = 1;
-        i = 0;
-        for (; name[i]!=0; ++i){
+    for (match=1; c < data->count; ++c){
+        for (i=0; name[i]!=0; ++i){
             if (data->body[c].name[i] != name[i]){
                 match = 0; break;
             }
@@ -221,14 +219,15 @@ void addvar(variables *data, char *name, float figure){
 
 float findvar(variables data, char *name){
     int match;
+    int i;
     for (int c=0; c<data.count; ++c){
         match = 1;
-        for (int i=0; name[i]!=0; ++i){
+        for (i=0; name[i]!=0; ++i){
             if (data.body[c].name[i] != name[i]){
                 match = 0; break;
             }
         }
-        if (match){
+        if (match && i<LEN && data.body[c].name[i+1]!=0){
             return data.body[c].figure;
         }
     }
