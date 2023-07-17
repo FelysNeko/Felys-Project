@@ -14,5 +14,5 @@ Operation suppoeted:
 4. negation: -x
 
 Syntax (case sensitive but not space sensitive):
-1. use '=' to assign a value to the left side, variable name can include space
+1. use '=' to assign a value to the left side
 2. directly type the calculation to output the result (similar to jupyter notebook)
