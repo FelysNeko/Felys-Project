@@ -40,6 +40,7 @@ float calculate(rpn, variables);
 
 
 void postfix(rpn *container, char *expr){
+    // get rid of any unknown character
     char nospace[MAX] = {0};
     for (int i=0; *expr!=0; ){
         if (type(*expr) != '?'){
@@ -118,6 +119,7 @@ void postfix(rpn *container, char *expr){
     }
 }
 
+
 void showrpn(rpn container){
     printf("[ ");
     for (int i=0; container[i][0]; ++i){
@@ -125,6 +127,7 @@ void showrpn(rpn container){
     }
     printf("]\n");
 }
+
 
 void initrpn(rpn *container){
     for (int row=0; row<MAX; ++row){
@@ -134,19 +137,24 @@ void initrpn(rpn *container){
     }
 }
 
+
 void init(stack *skt){
     skt->top = -1;
 }
+
 
 void push(stack *stk, float value){
     stk->body[++stk->top] = value;
 }
 
+
 float pop(stack *stk){
     return stk->body[stk->top--];
 }
 
+
 void one(stack *stk, char o){
+    // full stack plus one or minus one
     for (int i=0; i<stk->top+1; ++i){
         switch (o){
             case '+': ++stk->body[i]; break;
@@ -156,9 +164,11 @@ void one(stack *stk, char o){
     }
 }
 
+
 int isletter(char c){
     return ('a'<=c && c<='z') || ('A'<=c && c<='Z') ? 1 : 0;
 }
+
 
 int type(char c){
     if (('0'<=c && c<='9') || c=='.' || isletter(c)){
@@ -174,14 +184,17 @@ int type(char c){
     }
 }
 
+
 void initvar(variables *data){
     data->count = 0;
 }
+
 
 void addvar(variables *data, char *name, float figure){
     int match;
     int c = 0;
     int i;
+
     for (; c < data->count; ++c){
         match = 1;
         i = 0;
@@ -192,9 +205,12 @@ void addvar(variables *data, char *name, float figure){
         }
         if (match && i<LEN && data->body[c].name[i+1]!=0) break;
     }
+
     if (match && data->count){
+        // rewrite if var already exist
         data->body[c].figure = figure;
     } else{
+        // add new var with name and data
         for (int i=0; name[i]!=0; ++i){
             data->body[data->count].name[i] = name[i];
         }
@@ -219,6 +235,7 @@ float findvar(variables data, char *name){
     printf("[%s] not found, default using 0\n", name);
     return 0;
 }
+
 
 float calculate(rpn container, variables data){
     stack calc; init(&calc);
