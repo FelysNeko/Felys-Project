@@ -1,4 +1,5 @@
-# Reverse-Polish-Notation
-Personal practice code in C
+# Felys
 
-I am working on my own interpreter for practice, and this is my first step, though I am not good at C.
+Calulation interpreter, also as an application of postfix notatioin (reverse polish noatation)
+
+Some sample codes that can be understood by interpreter are in "workplace.ely". You can use command "./felys workplace.ely" to see the ouput, and make sure you add execution permission to "felys".
