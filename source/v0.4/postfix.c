@@ -173,7 +173,7 @@ int token(char c){
         return 0;
     } else if (c=='(' || c==')'){
         return -1;
-    } else if (c=='*' || c=='/' || c=='%'){
+    } else if (c=='*' || c=='/'){
         return 3;
     } else if (c=='+' || c=='-'){
         return 2;
