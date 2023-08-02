@@ -1,0 +1,17 @@
+a <- 0
+b <- 10
+
+while a < 3
+    if a = 0
+        a <- 10
+        goto 15
+    elif a < 2
+        a <- a + 1
+        b <- b + 1
+    else
+        a <- a * 10
+        a <- a + b
+
+b <- 20
+
+exit
