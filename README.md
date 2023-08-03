@@ -16,6 +16,6 @@ Operation supported:
 Syntax (case sensitive but not space sensitive):
 1. use '<-' to assign a value to the left side
 2. Similar to python, meaning strict indetation
-3. Support: while, if, elif, goto, else, exit
+3. Support: while, if, elif, goto, else, exit, show
 
-I will write a detailed document later to explain the core concepts of my design.
+Document is already done, and I will post the links later.
