@@ -1,17 +1,20 @@
-a <- 0
+a <- 1.1
 b <- 10
 
 while a < 3
+    show a
     if a = 0
         a <- 10
-        goto 15
+        goto 16
     elif a < 2
         a <- a + 1
         b <- b + 1
     else
         a <- a * 10
         a <- a + b
+        exit
 
-b <- 20
+b <- -(20--2)+1
 
-exit
+show a
+show b+a
