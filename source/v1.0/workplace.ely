@@ -5,7 +5,7 @@ while a < 3
     show a
     if a = 0
         a <- 10
-        goto 16
+        goto 17
     elif a < 2
         a <- a + 1
         b <- b + 1
