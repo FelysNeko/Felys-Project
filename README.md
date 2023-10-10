@@ -2,7 +2,7 @@
 
 Simple Math interpreter - application of postfix notatioin (reverse polish notation)
 
-Some sample codes that interpreter understands are in "workplace.ely". You can compile the program by command "gcc main.c -o felys" (if you are using Linux/Mac), and then type command "./felys workplace.ely" to see the ouput. If you want to see all the interlayers of the interpreter, you can use command "./felys workplace.ely debug" to get the details. Note that show command will not function in this mode.
+**Some sample codes that interpreter understands are in "workplace.ely".** You can compile the program by command "gcc main.c -o felys" (if you are using Linux/Mac), and then type command "./felys workplace.ely" to see the ouput. If you want to see all the interlayers of the interpreter, you can use command "./felys workplace.ely debug" to get the details. Note that show command will not function in this mode.
 
 The name "Felys" is the combination of my favourite two game characters **Elysia** and **Pardofelis** (from Honkai Impact 3rd).
 
