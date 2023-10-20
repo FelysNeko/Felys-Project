@@ -7,7 +7,7 @@ To compile the program (please use clang instead of gcc since the latter cause u
 clang main.c -o felys
 ```
 
-To execute the program, note there is a heaviside functions demo in "workplace.ely"
+To execute the program, note there is a heaviside function demo in "v1.0/workplace.ely"
 ```shell
 ./felys workplace.ely
 ```
