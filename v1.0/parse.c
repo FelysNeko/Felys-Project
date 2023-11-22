@@ -1,13 +1,4 @@
-static int loadkw(int, char *, char *);
-static int tab(char *);
-static int empty(char *);
-cmd *dtoc(double);
-
-static void cmdcheck(cmd *);
-static cmd *cmdread(cmd *, char *, int);
-void cmdparse(cmd *, container);
-void cmdinit(cmd *);
-void cmdlist(cmd *);
+#include "felys.h"
 
 
 cmd *

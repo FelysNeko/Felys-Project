@@ -1,10 +1,4 @@
-void lyrinit(lyr *);
-void lyradd(lyr *);
-void lyrdlt(lyr *);
-void lyrlist(lyr *);
-
-void varwrite(lyr *, char *, double);
-double varget(lyr *, char *);
+#include "felys.h"
 
 
 void

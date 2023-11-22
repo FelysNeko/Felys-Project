@@ -1,6 +1,4 @@
-int strlength(char *);
-int strmatch(char *, char *);
-char *strstrip(char *, char);
+#include "felys.h"
 
 
 int

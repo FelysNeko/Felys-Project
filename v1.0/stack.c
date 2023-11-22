@@ -1,10 +1,4 @@
-void error(char *, int);
-
-void stkinit(stack *);
-void stkpush(stack *, double);
-double stkpop(stack *stk);
-double stktop(stack *);
-void stkone(stack *, char);
+#include "felys.h"
 
 
 void
