@@ -2,9 +2,14 @@
 
 Simple Math Interpreter - application of postfix notatioin (reverse polish notation)
 
-To compile the program (please use clang instead of gcc since the latter cause unexpected issues when compiling on Linux)
+To compile the program (using clang)
 ```shell
-clang main.c -o felys
+make
+```
+
+To clean up all the .o file
+```shell
+make clean
 ```
 
 To execute the program, note there is a heaviside function demo in "v1.0/workplace.ely"
