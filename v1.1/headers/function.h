@@ -22,7 +22,7 @@ cmd *cmdgoto(cmd *, int);
 static double rpncalc(char *, lyr *);
 static void rpnstd(char *, char *);
 static void rpncvt(char *, container *);
-double rpnexpr(char *expr, lyr *base);
+double rpnexpr(char *, lyr *);
 void rpnshow(container);
 static int token(char);
 static int letter(char);

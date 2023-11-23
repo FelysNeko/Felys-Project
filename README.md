@@ -1,4 +1,4 @@
-# Felys (v1.0: Official Release)
+# Felys (v1.1: Official Release)
 
 Simple Math Interpreter - application of postfix notatioin (reverse polish notation)
 
