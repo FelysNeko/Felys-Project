@@ -1,8 +1,7 @@
-#include "define.h"
-#include "typedef.h"
-
 #ifndef __FUNCTION_H
 #define __FUNCTION_H
+#include "define.h"
+#include "typedef.h"
 
 int strlength(char *);
 int strmatch(char *, char *);

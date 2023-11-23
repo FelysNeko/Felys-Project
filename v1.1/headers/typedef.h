@@ -1,7 +1,6 @@
-#include "define.h"
-
 #ifndef __TYPEDEF_H
 #define __TYPEDEF_H
+#include "define.h"
 
 typedef char container[MAX][LEN];
 
