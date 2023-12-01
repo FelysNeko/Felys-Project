@@ -4,12 +4,12 @@ Simple Math Interpreter - application of postfix notatioin (reverse polish notat
 
 ## Compilation and Run
 
-To compile(using clang) the program and create a temperary folder for .o files
+To compile (using clang) the program and create a temperary folder for `.o` files. You can find this script in my other repo: [Script-Collection](https://github.com/Jhanny-Kin/Scripts-Collection/blob/main/makefile), modify the top three variables to customize the script.
 ```shell
 make
 ```
 
-To clean up all the temperary folder with .o file in it and felys the binary code
+To clean up all the temperary folder with `.o` file in it and `felys` the binary code
 ```shell
 make clean
 ```
@@ -26,11 +26,11 @@ To see the debugging output
 
 
 ## Operation
-1. basis: + - * /
-2. brackets: ( )
-3. decimals: [a].[b]
-4. negation: -x
-5. comparison: > < =
+1. basis: `+` `-` `*` `/`
+2. brackets: `(` `)`
+3. decimals: `3.14`
+4. negation: `-3`
+5. comparison: `>` `<` `=`
 
 Example:
 ```
@@ -39,9 +39,9 @@ Example:
 
 ## Syntax 
 1. case sensitive but not space sensitive
-2. use '<-' to assign a value to the variable (left side)
+2. use `<-` to assign a value to the variable (left side)
 3. Similar to python syntax: strict indetation, no semicolons/brace
-4. Support keywords: while, if, elif, goto, else, exit, show
+4. Support keywords: `while`, `if`, `elif`, `goto`, `else`, `exit`, `show`
 
 
 ## Additional Information
