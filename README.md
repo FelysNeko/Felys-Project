@@ -4,7 +4,7 @@ Simple Math Interpreter - application of postfix notatioin (reverse polish notat
 
 ## Compilation and Run
 
-To compile (using clang) the program and create a temperary folder for `.o` files. You can find this script in my other repo: [Script-Collection](https://github.com/Jhanny-Kin/Scripts-Collection/blob/main/makefile), modify the top three variables to customize the script.
+To compile (using clang) the program and create a temperary folder for `.o` files. You can find this script in my other repo: [Script-Collection](https://github.com/Jhanny-Kin/Script-Collection/blob/main/makefile), modify the top three variables to customize the script.
 ```shell
 make
 ```
