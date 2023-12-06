@@ -1,4 +1,4 @@
-# Felys (v1.1: Official Release)
+# Felys-Interpreter
 
 Simple Math Interpreter - application of postfix notatioin (reverse polish notation)
 
@@ -22,14 +22,11 @@ If you want to see the stucture behind, you can execute `./felys workplace.ely d
 4. negation: `-3`
 5. comparison: `>` `<` `=`
 
-Example:
-```
-1+(-3/4.5-2) > (0.5*(1+3/2)-1)/2
-```
+Example: `1+(-3/4.5-2) > (0.5*(1+3/2)-1)/2`
 
 ## Syntax 
 1. case sensitive but not space sensitive
-2. use `<-` to assign a value to the variable (left side)
+2. use `<-` to assign the value to a variable (left side)
 3. Similar to python syntax: strict indetation, no semicolons/brace
 4. Support keywords: `while` `if` `elif` `goto` `else` `exit` `show`
 

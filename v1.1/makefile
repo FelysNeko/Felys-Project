@@ -1,22 +1,23 @@
-CC = clang
-BUILD = build
-OUTPUT = felys
+cc = clang
+extension = c
+build = build
+output = felys
 
-SOURCES = $(wildcard *.c)
-OBJECTS = $(patsubst %.c,$(BUILD)/%.o,$(SOURCES))
+source = $(wildcard *.$(extension))
+objects = $(patsubst %.$(extension),$(build)/%.o,$(source))
 
-all: dir $(OUTPUT)
+all: dir $(output)
 
 dir:
-ifneq ($(wildcard $(BUILD)), $(BUILD))
-	mkdir -p $(BUILD)
+ifneq ($(wildcard $(build)), $(build))
+	mkdir -p $(build)
 endif
 
-$(OUTPUT): $(OBJECTS)
-	$(CC) -o $@ $^ 
+$(output): $(objects)
+	$(cc) -o $@ $^ 
 
-$(OBJECTS): $(BUILD)/%.o: %.c
-	$(CC) -o $@ -c $< 
+$(objects): $(build)/%.o: %.$(extension)
+	$(cc) -o $@ -c $< 
 
 clean:
-	rm -rf $(BUILD) $(OUTPUT)
+	rm -rf $(build) $(output)
