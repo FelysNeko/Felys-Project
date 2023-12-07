@@ -2,6 +2,6 @@
 
 int main(void)
 {
-    printf("%lu\n", sizeof(FeObject));;
+    printf("%lu\n", sizeof(ElyObject));;
     return 0;
 }

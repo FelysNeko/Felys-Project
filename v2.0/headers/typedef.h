@@ -4,21 +4,21 @@
 #include "define.h"
 
 
-typedef enum FeType {
+typedef enum ElyType {
     NONE,
     INTEGER,
     DECIMAL,
     RATIONAL,
     STRING,
     ITERABLE,
-} FeType;
+} ElyType;
 
 
-typedef struct FeObject {
-    FeType type;
+typedef struct ElyObject {
+    ElyType type;
     char raw[MAX];
-    struct FeObject *extend;
-} FeObject;
+    struct ElyObject *extend;
+} ElyObject;
 
 
 #endif
