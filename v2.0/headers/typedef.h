@@ -4,27 +4,21 @@
 #include "define.h"
 
 
-typedef enum type {
+typedef enum FeType {
     NONE,
     INTEGER,
     DECIMAL,
     RATIONAL,
     STRING,
-    POINTER,
-} type;
+    ITERABLE,
+} FeType;
 
 
-typedef enum bool {
-    FALSE,
-    TRUE,
-} bool;
-
-
-typedef struct object {
-    type datatype;
-    bool iterable;
-    char content[MAX];
-} object;
+typedef struct FeObject {
+    FeType type;
+    char raw[MAX];
+    struct FeObject *extend;
+} FeObject;
 
 
 #endif

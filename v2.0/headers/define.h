@@ -2,7 +2,7 @@
 #define __DEFINE_H__
 
 
-#define MAX 248
+#define MAX 240
 
 
 #endif
