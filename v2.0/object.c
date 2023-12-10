@@ -5,12 +5,15 @@ ElyObject *
 new(ElyType type, size_t *cp)
 {
     ElyObject *self = (ElyObject *)calloc(1, sizeof(ElyObject));
+    if (self == NULL) {
+        return NULL;
+    }
+
     self->type = type;
     self->size = 0;
     self->data = NULL;
     self->iter = NULL;
     ++(*cp);
-
     return self;
 }
 
@@ -21,8 +24,11 @@ assign(ElyObject *self, char *data, size_t size)
     if (self->type==NUMBER || self->type==STRING) {
         free(self->data);
         self->data = (char *)calloc(size, sizeof(char));
-        self->size = size;
+        if (self->data==NULL || size<1) {
+            return false;
+        }
 
+        self->size = size;
         for (int i=0; i<size; ++i) {
             self->data[i] = data[i];
         }
@@ -39,8 +45,11 @@ refer(ElyObject *self, ElyObject **iter, size_t size, size_t *cp)
     if (self->type==RATIONAL || self->type==ITERABLE) {
         empty(self, cp);
         self->iter = (ElyObject **)calloc(size, sizeof(ElyObject *));
-        self->size = size;
+        if (self->iter==NULL || size<1) {
+            return false;
+        }
 
+        self->size = size;
         for (int i=0; i<size; ++i) {
             self->iter[i] = iter[i];
         }
@@ -54,15 +63,13 @@ refer(ElyObject *self, ElyObject **iter, size_t size, size_t *cp)
 void
 delete(ElyObject *self, size_t *cp)
 {
-    if (self != NULL) {
-        if (self->data) {
-            free(self->data);
-        } else if (self->iter) {
-            empty(self, cp);
-        }
-        free(self);
-        --(*cp);
+    if (self->data) {
+        free(self->data);
+    } else if (self->iter) {
+        empty(self, cp);
     }
+    free(self);
+    --(*cp);
 }
 
 

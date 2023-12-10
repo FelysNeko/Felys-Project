@@ -14,17 +14,14 @@ int main(void)
 
     ElyObject *temp[2] = {o1, o2};
 
-    ElyObject *array = new(ITERABLE, cp);
-    refer(array, temp, 2, cp);
+    ElyObject *a1 = new(ITERABLE, cp);
+    refer(a1, temp, 2, cp);
 
-    printf("%p\n", array);
-    printf("%s\n", array->data);
-    printf("%s\n", array->iter[0]->data);
-    printf("%s\n", array->iter[1]->data);
-    printf("%lu\n", array->size);
-
-    delete(array, cp);
-    printf("%lu\n", counter);
+    ElyObject *a2 = new(ITERABLE, cp);
+    refer(a2, &a1, 1, cp);
+    
+    delete(a2, cp);
+    printf("[%lu]\n", counter);
 
     return 0;
 }
