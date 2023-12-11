@@ -2,7 +2,7 @@
 
 
 ElyObject *
-new(ElyType type, size_t *cp)
+obj_new(ElyType type, size_t *cp)
 {
     ElyObject *self = (ElyObject *)calloc(1, sizeof(ElyObject));
     if (self == NULL) {
@@ -19,10 +19,10 @@ new(ElyType type, size_t *cp)
 
 
 bool
-assign(ElyObject *self, char *data, size_t size)
+obj_assign(ElyObject *self, char *data, size_t size)
 {
     if (self->type==NUMBER || self->type==STRING) {
-        free(self->data);
+        obj_data_delete(self);
         self->data = (char *)calloc(size, sizeof(char));
         if (self->data==NULL || size<1) {
             return false;
@@ -40,10 +40,10 @@ assign(ElyObject *self, char *data, size_t size)
 
 
 bool
-refer(ElyObject *self, ElyObject **iter, size_t size, size_t *cp)
+obj_refer(ElyObject *self, ElyObject **iter, size_t size, size_t *cp)
 {
     if (self->type==RATIONAL || self->type==ITERABLE) {
-        empty(self, cp);
+        obj_iter_delete(self, cp);
         self->iter = (ElyObject **)calloc(size, sizeof(ElyObject *));
         if (self->iter==NULL || size<1) {
             return false;
@@ -61,12 +61,12 @@ refer(ElyObject *self, ElyObject **iter, size_t size, size_t *cp)
 
 
 void
-delete(ElyObject *self, size_t *cp)
+obj_delete(ElyObject *self, size_t *cp)
 {
     if (self->data) {
-        free(self->data);
+        obj_data_delete(self);
     } else if (self->iter) {
-        empty(self, cp);
+        obj_iter_delete(self, cp);
     }
     free(self);
     --(*cp);
@@ -74,10 +74,53 @@ delete(ElyObject *self, size_t *cp)
 
 
 static void
-empty(ElyObject *self, size_t *cp)
+obj_iter_delete(ElyObject *self, size_t *cp)
 {
     for (int i=0; i<self->size; ++i) {
-        delete(self->iter[i], cp);
+        obj_delete(self->iter[i], cp);
     }
     free(self->iter);
+}
+
+
+static void
+obj_data_delete(ElyObject *self)
+{
+    free(self->data);
+}
+
+
+void
+obj_print(ElyObject *self, char end)
+{
+    if (self->data) {
+        obj_data_print(self);
+    } else if (self->iter) {
+        obj_iter_print(self);
+    } else {
+        printf("NONE");
+    }
+    putchar(end);
+}
+
+
+static void
+obj_data_print(ElyObject *self)
+{
+    for (int i=0; i<self->size; ++i) {
+        putchar(self->data[i]);
+    }
+}
+
+
+static void
+obj_iter_print(ElyObject *self)
+{
+    putchar('[');
+    for (int i=0; i<self->size; ++i) {
+        putchar(' ');
+        obj_print(self->iter[i], '\0');
+        putchar(' ');
+    }
+    putchar(']');
 }
