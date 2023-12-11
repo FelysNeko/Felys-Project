@@ -2,6 +2,8 @@
 
 Simple Math Interpreter - application of postfix notatioin (reverse polish notation)
 
+Version 2.0 under development: [Future Branch](https://github.com/Jhanny-Kin/Felys-Interpreter/tree/future)
+
 ## Compilation and Run
 
 Run `make` To compile (using clang) the program and create a temperary folder for `.o` files. You can find this script in my other repo: [Code-Collection](https://github.com/Jhanny-Kin/Code-Collection/blob/main/Make/makefile), modify the top four variables to customize the script. Then you can use `make clean` To clean up the temperary folder with `.o` file in it and `felys` the binary code.
