@@ -4,8 +4,8 @@
 
 
 ElyObject *obj_new(ElyType, size_t *);
-bool obj_assign(ElyObject *, char *, size_t);
-bool obj_refer(ElyObject *, ElyObject **, size_t, size_t *);
+void obj_assign(ElyObject *, char *, size_t);
+void obj_refer(ElyObject *, ElyObject **, size_t, size_t *);
 void obj_delete(ElyObject *, size_t *);
 static void obj_iter_delete(ElyObject *, size_t *);
 static void obj_data_delete(ElyObject *);

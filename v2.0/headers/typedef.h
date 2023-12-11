@@ -4,9 +4,9 @@
 
 typedef enum ElyType {
     NONE,
-    NUMBER,
+    INTEGER,
+    DECIMAL,
     STRING,
-    RATIONAL,
     ITERABLE,
 } ElyType;
 

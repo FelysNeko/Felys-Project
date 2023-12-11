@@ -3,3 +3,5 @@
 #include <stdbool.h>
 #include "headers/typedef.h"
 #include "headers/object.h"
+#include "headers/general.h"
+#include "headers/arithmetic.h"
