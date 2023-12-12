@@ -7,10 +7,13 @@ raise(char *msg)
     exit(1);
 }
 
+
 int
 char_to_int(char c)
 {
-    if (c<'0' || '9'<c) {
+    if (c == '.') {
+        return c;
+    } else if (c<'0' || '9'<c) {
         raise("unable to convert char to int");
     }
     return c-48;
@@ -24,4 +27,15 @@ int_to_char(int i)
         raise("unable to convert int to char");
     }
     return i+48;
+}
+
+
+void
+summarize(size_t c) 
+{
+    if (c) {
+        printf(RED("[%lu] MEMORY LEAK"), c);
+    } else {
+        printf(GREEN("NO MEMORY LEAK"));
+    }
 }

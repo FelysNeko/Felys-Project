@@ -2,9 +2,9 @@
 
 
 ElyObject *
-obj_new(ElyType type, size_t *cp)
+obj_new(ElyType type)
 {
-    ElyObject * const self = (ElyObject *)calloc(1, sizeof(ElyObject));
+    ElyObject * const self = CALLOC(1, ElyObject);
     if (self == NULL) {
         goto error;
     }
@@ -13,7 +13,6 @@ obj_new(ElyType type, size_t *cp)
     self->size = 0;
     self->data = NULL;
     self->iter = NULL;
-    ++(*cp);
     return self;
 
 error: 
@@ -29,8 +28,8 @@ obj_assign(ElyObject * const self, char *data, size_t size)
         goto error;
     }
 
-    obj_data_delete(self);
-    self->data = (char *)calloc(size, sizeof(char));
+    _obj_data_delete(self);
+    self->data = CALLOC(size, char);
     if (self->data==NULL || size<1) {
         goto error;
     }
@@ -48,14 +47,14 @@ error:
 
 
 void
-obj_refer(ElyObject * const self, ElyObject **iter, size_t size, size_t *cp)
+obj_refer(ElyObject * const self, ElyObject **iter, size_t size)
 {
     if (self->type!=ITERABLE) {
         goto error;
     }
 
-    obj_iter_delete(self, cp);
-    self->iter = (ElyObject **)calloc(size, sizeof(ElyObject *));
+    _obj_iter_delete(self);
+    self->iter = CALLOC(size, ElyObject *);
     if (self->iter==NULL || size<1) {
         goto error;
     }
@@ -73,32 +72,31 @@ error:
 
 
 void
-obj_delete(ElyObject * const self, size_t *cp)
+obj_delete(ElyObject * const self)
 {
     if (self->data) {
-        obj_data_delete(self);
+        _obj_data_delete(self);
     } else if (self->iter) {
-        obj_iter_delete(self, cp);
+        _obj_iter_delete(self);
     }
-    free(self);
-    --(*cp);
+    FREE(self);
 }
 
 
 static void
-obj_iter_delete(ElyObject * const self, size_t *cp)
+_obj_iter_delete(ElyObject * const self)
 {
     for (int i=0; i<self->size; ++i) {
-        obj_delete(self->iter[i], cp);
+        obj_delete(self->iter[i]);
     }
-    free(self->iter);
+    FREE(self->iter);
 }
 
 
 static void
-obj_data_delete(ElyObject * const self)
+_obj_data_delete(ElyObject * const self)
 {
-    free(self->data);
+    FREE(self->data);
 }
 
 
@@ -106,9 +104,9 @@ void
 obj_print(ElyObject * const self, char end)
 {
     if (self->data) {
-        obj_data_print(self);
+        _obj_data_print(self);
     } else if (self->iter) {
-        obj_iter_print(self);
+        _obj_iter_print(self);
     } else {
         printf("NONE");
     }
@@ -117,16 +115,17 @@ obj_print(ElyObject * const self, char end)
 
 
 static void
-obj_data_print(ElyObject * const self)
-{
-    for (int i=0; i<self->size; ++i) {
-        putchar(self->data[i]);
+_obj_data_print(ElyObject * const self)
+{   
+    int i = ((self->type==INTEGER || self->type==DECIMAL) && self->data[0]=='+');
+    while (i < self->size) {
+        putchar(self->data[i++]);
     }
 }
 
 
 static void
-obj_iter_print(ElyObject * const self)
+_obj_iter_print(ElyObject * const self)
 {
     putchar('[');
     for (int i=0; i<self->size; ++i) {

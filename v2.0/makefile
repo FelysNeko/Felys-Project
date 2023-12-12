@@ -16,7 +16,7 @@ endif
 $(output): $(objects)
 	$(cc) -o $@ $^ 
 
-$(objects): $(build)/%.o: %.$(extension)
+$(objects): $(build)/%.o: %.$(extension) $(wildcard headers/*.h) felys.h
 	$(cc) -o $@ -c $< 
 
 clean:

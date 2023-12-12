@@ -1,30 +1,30 @@
 #include "felys.h"
 
-size_t counter = 0;
-size_t * const cp = &counter;
-
 
 int main(void)
 {
-    ElyObject *o1 = obj_new(INTEGER, cp);
-    obj_assign(o1, "123456789123456789123456789987654321987654321987654321", 54);
+    ElyObject *a = obj.new(INTEGER);
+    obj.assign(a, "123", 3);
 
-    ElyObject *o2 = obj_new(INTEGER, cp);
-    obj_assign(o2, "987654321987654321987654321123456789123456789123456789", 54);
+    ElyObject *b = obj.new(INTEGER);
+    obj.assign(b, "321", 3);
 
-    ElyObject *s = obj_new(STRING, cp);
-    obj_assign(s, "felys", 5);
+    ElyObject *c = obj.new(STRING);
+    obj.assign(c, "felys miao", 10);
 
-    ElyObject *r = obj_add_obj(o1, o2, cp);
+    ElyObject *temp1[2] = {a, b};
 
-    ElyObject *temp[] = {o1, o2, r, s};
+    ElyObject *arr = obj.new(ITERABLE);
+    obj.refer(arr, temp1, 2);
 
-    ElyObject *array = obj_new(ITERABLE, cp);
-    obj_refer(array, temp, 4, cp);
+    ElyObject *temp2[2] = {arr, c};
 
-    obj_print(array, '\n');
-    obj_delete(array, cp);
+    ElyObject *r = obj.new(ITERABLE);
+    obj.refer(r, temp2, 2);
 
-    printf("%lu pieces of memory unfreed\n", counter);
+    obj.print(r, '\n');
+    obj.del(r);
+
+    summarize(counter);
     return 0;
 }
