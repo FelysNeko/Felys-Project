@@ -3,7 +3,7 @@
 #include "error.h"
 
 
-void summarize(size_t *, error *);
+void summarize(size_t *, errors *);
 char _int_to_char(int);
 int _char_to_int(char);
 

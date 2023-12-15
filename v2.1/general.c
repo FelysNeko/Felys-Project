@@ -2,7 +2,7 @@
 
 
 void
-summarize(size_t *count, error *errstk)
+summarize(size_t *count, errors *errstk)
 {
     _print_error_free_mem(errstk);
     if (*count) {

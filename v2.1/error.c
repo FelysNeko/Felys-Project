@@ -10,7 +10,7 @@ raise(ErrorType type, char const * msg)
 
 
 void 
-_print_error_free_mem(error *self)
+_print_error_free_mem(errors *self)
 {
     while (self->top > -1) {
         ElyError *err = _pop_error(self);
@@ -48,24 +48,24 @@ _error_init(ErrorType type, char const *msg)
 
 
 static void
-_push_error(error *self, ElyError * const err)
+_push_error(errors *self, ElyError * const err)
 {
     if (self->top < SIZE-1) {
         self->data[++self->top] = err;
     } else {
-        printf(RED("CRITICAL: error stack overflow"));
+        printf(RED("CRITICAL: errors stack overflow"));
         exit(1);
     }
 }
 
 
 static ElyError *
-_pop_error(error *self)
+_pop_error(errors *self)
 {
     if (self->top > -1) {
         return self->data[self->top--];
     } else {
-        printf(RED("CRITICAL: error stack invalid index"));
+        printf(RED("CRITICAL: errors stack invalid index"));
         exit(1);
     }
 }

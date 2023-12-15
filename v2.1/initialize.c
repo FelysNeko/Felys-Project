@@ -5,11 +5,11 @@ size_t _counter = 0;
 size_t * const __count__ = &_counter;
 
 
-error _error_stack = {
+errors _error_stack = {
     .data = {NULL},
     .top = -1
 };
-error * const __error__ = &_error_stack;
+errors * const __error__ = &_error_stack;
 
 
 __object__ obj = {

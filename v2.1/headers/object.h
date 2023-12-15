@@ -7,12 +7,15 @@ ElyObject *_object_init(ElyType);
 bool _object_assign(ElyObject *, char *, size_t);
 bool _object_store(ElyObject *, ElyObject **, size_t);
 bool _object_delete(ElyObject *);
-bool _object_print(ElyObject *, char);
+void _object_print(ElyObject *, char);
 static bool _delete_object_data(ElyObject *);
 static bool _delete_object_iter(ElyObject *);
 static bool _data_check(ElyObject *, char *, size_t);
 static bool _number_check(char *, size_t);
 static bool _string_check(char *, size_t);
+static bool _iter_check(ElyObject *, size_t);
+static void _print_data(ElyObject *);
+static void _print_iter(ElyObject *);
 
 
 typedef struct __object__ {
@@ -20,7 +23,7 @@ typedef struct __object__ {
     bool (*assign)(ElyObject *, char *, size_t);
     bool (*store)(ElyObject *, ElyObject **, size_t);
     bool (*del)(ElyObject *);
-    bool (*print)(ElyObject *, char);
+    void (*print)(ElyObject *, char);
 } __object__;
 
 extern __object__ obj;

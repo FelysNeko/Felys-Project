@@ -81,29 +81,29 @@ exception:
 static bool
 _number_check(char *data, size_t size)
 {
-    if (size < 2) {
-        raise(ObjectError, "number should have length more than 2");
+    if (size < 4) {
+        raise(ObjectError, "number should have length more than 4, i.e. +0.0");
         goto exception;
     } else if (data[0]!='+' && data[0]!='-') {
         raise(ObjectError, "sign is not identified");
         goto exception;
     } else if (data[1]=='.' || data[size-1]=='.') {
-        raise(ObjectError, "invalid period");
+        raise(ObjectError, "invalid decimal point");
         goto exception;
     }
 
-    int count = 0;
+    bool decimal = false;
     for (int i=1, temp; i<size; ++i) {
         temp = _char_to_int(data[i]);
         if (temp == -1) {
             goto exception;
         } else if (temp == '.') {
-            ++count;
+            decimal = true;
         }
     }
 
-    if (count > 1) {
-        raise(ObjectError, "more than two period exist in number");
+    if (decimal != true) {
+        raise(ObjectError, "number of decimal point should be one");
         goto exception;
     }
 
@@ -134,7 +134,50 @@ exception:
 bool
 _object_store(ElyObject * const self, ElyObject **iter, size_t size)
 {
+    if (_iter_check(self, size) == false) {
+        goto exception;
+    }
+
+    if (_delete_object_iter(self) == false) {
+        raise(ObjectError, "unable to clear original container");
+        goto exception;
+    }
+
+    self->iter = CALLOC(size, ElyObject *);
+    if (self->iter==NULL) {
+        raise(SystemError, "cannot allocation new memory");
+        goto exception;
+    }
+
+    self->size = size;
+    for (int i=0; i<size; ++i) {
+        self->iter[i] = iter[i];
+    }
+
     return true;
+
+exception:
+    raise(ObjectError, "unable to store the iterables");
+    return false;
+}
+
+
+static bool
+_iter_check(ElyObject * const self, size_t size)
+{
+    if (self->type != ITERABLE) {
+        raise(ObjectError, "invalid data typefor store operation");
+        goto exception;
+    } else if (size < 1) {
+        raise(ObjectError, "iterable must have more than one value");
+        goto exception;
+    }
+
+    return true;
+
+exception:
+    raise(ObjectError, "iter check does not pass");
+    return false;
 }
 
 
@@ -147,12 +190,12 @@ _object_delete(ElyObject * const self)
     }
 
     bool result = false;
-    if (self->data) {
+    if (self->data && self->iter==NULL) {
         result = _delete_object_data(self);
-    } else if (self->iter) {
+    } else if (self->iter && self->data==NULL) {
         result = _delete_object_iter(self);
     } else {
-        raise(DeleteError, "trying to free an skeleton object");
+        raise(DeleteError, "trying to free an skeleton or invalid object");
         goto exception;
     }
 
@@ -186,7 +229,9 @@ _delete_object_iter(ElyObject * const self)
             goto exception;
         }
     }
-    FREE(self);
+
+    FREE(self->iter);
+    return true;
 
 exception:
     raise(DeleteError, "failed to delete object iterables");
@@ -194,8 +239,38 @@ exception:
 }
 
 
-bool
+void
 _object_print(ElyObject * const self, char end)
 {
-    return true;
+    if (self->data) {
+        _print_data(self);
+    } else if (self->iter) {
+        _print_iter(self);
+    } else {
+        printf("NONE");
+    }
+    putchar(end);
+}
+
+
+static void
+_print_data(ElyObject * const self)
+{
+    int i = (self->type==NUMBER && self->data[0]=='+');
+    while (i < self->size) {
+        putchar(self->data[i++]);
+    }
+}
+
+
+static void
+_print_iter(ElyObject * const self)
+{
+    putchar('[');
+    for (int i=0; i<self->size; ++i) {
+        putchar(' ');
+        _object_print(self->iter[i], '\0');
+        putchar(' ');
+    }
+    putchar(']');
 }
