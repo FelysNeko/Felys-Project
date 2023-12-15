@@ -4,6 +4,8 @@
 
 
 void summarize(size_t *, error *);
+char _int_to_char(int);
+int _char_to_int(char);
 
 
 #endif

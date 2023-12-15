@@ -2,8 +2,15 @@
 #define __CORE_H__
 
 
+typedef enum ErrorType {
+    SystemError,
+    ObjectError,
+    ConvertError,
+    DeleteError,
+} ErrorType;
+
+
 typedef enum ElyType {
-    NONE,
     NUMBER,
     STRING,
     ITERABLE,
@@ -19,6 +26,7 @@ typedef struct ElyObject {
 
 
 typedef struct ElyError {
+    ErrorType type;
     char const *msg;
 } ElyError;
 

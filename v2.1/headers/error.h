@@ -10,9 +10,10 @@ typedef struct error {
 } error;
 
 
-void raise(char const *);
+void raise(ErrorType, char const *);
 void _print_error_free_mem(error *);
-static ElyError *_error_init(char const *);
+static char const *_get_error(ErrorType);
+static ElyError *_error_init(ErrorType, char const *);
 static void _push_error(error *, ElyError *);
 static ElyError *_pop_error(error *);
 
