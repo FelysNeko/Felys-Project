@@ -2,7 +2,7 @@
 
 
 void
-summarize(size_t *count, errors *errstk)
+summarize(long *count, errors *errstk)
 {
     _print_error_free_mem(errstk);
     if (*count) {
@@ -24,7 +24,7 @@ _int_to_char(int x)
 
 exception:
     raise(ConvertError, "cannot convert int to char");
-    return -1;
+    return 10;
 }
 
 
@@ -41,5 +41,5 @@ _char_to_int(char x)
 
 exception:
     raise(ConvertError, "cannot convert char to int");
-    return -1;
+    return 10;
 }

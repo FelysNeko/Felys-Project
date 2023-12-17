@@ -19,7 +19,7 @@ typedef enum ElyType {
 
 typedef struct ElyObject {
     ElyType type;
-    size_t size;
+    long size;
     char *data;
     struct ElyObject **iter;
 } ElyObject;

@@ -23,7 +23,7 @@ exception:
 
 
 bool
-_object_assign(ElyObject * const self, char *data, size_t size)
+_object_assign(ElyObject * const self, char *data, long size)
 {
     if (_data_check(self, data, size) == false) {
         goto exception;
@@ -41,7 +41,7 @@ _object_assign(ElyObject * const self, char *data, size_t size)
     }
 
     self->size = size;
-    for (int i=0; i<size; ++i) {
+    for (long i=0; i<size; ++i) {
         self->data[i] = data[i];
     }
 
@@ -54,7 +54,7 @@ exception:
 
 
 static bool
-_data_check(ElyObject * const self, char *data, size_t size)
+_data_check(ElyObject * const self, char *data, long size)
 {
     bool result = false;
     if (self->type == NUMBER) {
@@ -79,7 +79,7 @@ exception:
 
 
 static bool
-_number_check(char *data, size_t size)
+_number_check(char *data, long size)
 {
     if (size < 4) {
         raise(ObjectError, "number should have length more than 4, i.e. +0.0");
@@ -93,9 +93,9 @@ _number_check(char *data, size_t size)
     }
 
     bool decimal = false;
-    for (int i=1, temp; i<size; ++i) {
+    for (long i=1, temp; i<size; ++i) {
         temp = _char_to_int(data[i]);
-        if (temp == -1) {
+        if (temp == 10) {
             goto exception;
         } else if (temp == '.') {
             decimal = true;
@@ -116,7 +116,7 @@ exception:
 
 
 static bool
-_string_check(char *data, size_t size)
+_string_check(char *data, long size)
 {
     if (size < 1) {
         raise(ObjectError, "string must have length more than one");
@@ -132,7 +132,7 @@ exception:
 
 
 bool
-_object_store(ElyObject * const self, ElyObject **iter, size_t size)
+_object_store(ElyObject * const self, ElyObject **iter, long size)
 {
     if (_iter_check(self, size) == false) {
         goto exception;
@@ -150,7 +150,7 @@ _object_store(ElyObject * const self, ElyObject **iter, size_t size)
     }
 
     self->size = size;
-    for (int i=0; i<size; ++i) {
+    for (long i=0; i<size; ++i) {
         self->iter[i] = iter[i];
     }
 
@@ -163,7 +163,7 @@ exception:
 
 
 static bool
-_iter_check(ElyObject * const self, size_t size)
+_iter_check(ElyObject * const self, long size)
 {
     if (self->type != ITERABLE) {
         raise(ObjectError, "invalid data typefor store operation");
@@ -223,7 +223,7 @@ _delete_object_data(ElyObject * const self)
 static bool 
 _delete_object_iter(ElyObject * const self)
 {
-    for (int i=0; i<self->size; ++i) {
+    for (long i=0; i<self->size; ++i) {
         bool result = _object_delete(self->iter[i]);
         if (result == false) {
             goto exception;
@@ -256,7 +256,7 @@ _object_print(ElyObject * const self, char end)
 static void
 _print_data(ElyObject * const self)
 {
-    int i = (self->type==NUMBER && self->data[0]=='+');
+    long i = (self->type==NUMBER && self->data[0]=='+');
     while (i < self->size) {
         putchar(self->data[i++]);
     }
@@ -267,7 +267,7 @@ static void
 _print_iter(ElyObject * const self)
 {
     putchar('[');
-    for (int i=0; i<self->size; ++i) {
+    for (long i=0; i<self->size; ++i) {
         putchar(' ');
         _object_print(self->iter[i], '\0');
         putchar(' ');

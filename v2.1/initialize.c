@@ -1,8 +1,8 @@
 #include "felys.h"
 
 
-size_t _counter = 0;
-size_t * const __count__ = &_counter;
+long _counter = 0;
+long * const __count__ = &_counter;
 
 
 errors _error_stack = {
@@ -20,3 +20,7 @@ __object__ obj = {
     .print = _object_print
 };
 
+
+__calc__ calc = {
+    .add = _object_addition,
+};

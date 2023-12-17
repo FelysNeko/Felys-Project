@@ -3,24 +3,27 @@
 
 int main(void)
 {
-    ElyObject *x = obj.init(NUMBER);
-    obj.assign(x, "+1.3", 4);
-    obj.assign(x, "+1.0", 4);
+    ElyObject *x, *y, *me, *array, *result, *all;
 
-    ElyObject *y = obj.init(NUMBER);
-    obj.assign(y, "-3.1", 4);
+    EXEC(x = obj.init(NUMBER));
+    EXEC(y = obj.init(NUMBER));
+    EXEC(me = obj.init(STRING));
+    EXEC(array = obj.init(ITERABLE));
+    EXEC(all = obj.init(ITERABLE));
 
-    ElyObject *z = obj.init(STRING);
-    obj.assign(z, "felys", 5);
 
-    ElyObject *temp[3] = {x, y, z};
+    EXEC(obj.assign(x, "+464243676710.2342424554525356", 30));
+    EXEC(obj.assign(y, "-20245555454672452.42345264256", 30));
+    EXEC(result = calc.add(y, x));
+    EXEC(obj.assign(me, "felys", 5));
 
-    ElyObject *arr = obj.init(ITERABLE);
-    obj.store(arr, temp, 3);
+    ElyObject *sub[3] = {x, y, result};
+    ElyObject *temp[2] = {array, me};
+    EXEC(obj.store(array, sub, 3));
+    EXEC(obj.store(all, temp, 2));
 
-    obj.print(arr, '\n');
-
-    obj.del(arr);
+    obj.print(all, '\n');
+    obj.del(all);
 
 end:
     summarize(__count__, __error__);
