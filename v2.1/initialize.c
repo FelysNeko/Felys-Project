@@ -1,8 +1,8 @@
 #include "felys.h"
 
 
-long _counter = 0;
-long * const __count__ = &_counter;
+size_t _counter = 0;
+size_t * const __count__ = &_counter;
 
 
 errors _error_stack = {

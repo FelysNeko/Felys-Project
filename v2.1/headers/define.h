@@ -22,8 +22,8 @@ do {\
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 
-extern long _counter;
-extern long * const __count__;
+extern size_t _counter;
+extern size_t * const __count__;
 
 
 #endif

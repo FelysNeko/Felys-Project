@@ -3,9 +3,9 @@
 #include "error.h"
 
 
-void summarize(long *, errors *);
-char _int_to_char(int);
-int _char_to_int(char);
+void summarize(size_t *, errors *);
+char _size_t_to_char(size_t);
+size_t _char_to_size_t(char);
 
 
 #endif

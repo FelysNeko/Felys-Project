@@ -2,7 +2,7 @@
 
 
 void
-summarize(long *count, errors *errstk)
+summarize(size_t *count, errors *errstk)
 {
     _print_error_free_mem(errstk);
     if (*count) {
@@ -14,7 +14,7 @@ summarize(long *count, errors *errstk)
 
 
 char
-_int_to_char(int x)
+_size_t_to_char(size_t x)
 {
     if (0<=x && x<= 9) {
         return x+48;
@@ -23,13 +23,13 @@ _int_to_char(int x)
     }
 
 exception:
-    raise(CvtError, "<_int_to_char> failed to convert int to char");
+    raise(CvtError, "<_size_t_to_char> failed to convert size_t to char");
     return 10;
 }
 
 
-int
-_char_to_int(char x)
+size_t
+_char_to_size_t(char x)
 {
     if ('0'<=x && x<='9') {
         return x-48;
@@ -40,6 +40,6 @@ _char_to_int(char x)
     }
 
 exception:
-    raise(CvtError, "<_char_to_int> cannot convert char to int");
+    raise(CvtError, "<_char_to_size_t> cannot convert char to size_t");
     return 10;
 }

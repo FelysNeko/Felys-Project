@@ -3,13 +3,10 @@
 
 
 ElyObject * _object_addition(ElyObject *, ElyObject *);
-static char *_expand_string_from_head(char *, long, long);
-static long _object_abs_larger(ElyObject *, ElyObject *);
-static char *_tens_complement(char *, long, long, long, long);
-static long _locate_decimal_point(char *, long);
-static char *_aligned_number_add(char *, char *, long *);
-static char * _tens_format(char *data, long, long, long, long);
-
+static char *_strnum_align(char *, size_t, size_t, size_t, size_t);
+static char *_strnum_add_fi(char *, char *, size_t *);
+static size_t _locate_deci_point(char *, size_t);
+static char *_strnum_insert_head_fi(char *, size_t *, char);
 
 typedef struct __calc__ {
     ElyObject *(*add)(ElyObject *, ElyObject *);
