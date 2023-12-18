@@ -16,7 +16,6 @@ _object_addition(ElyObject *lhs, ElyObject *rhs)
 
     char *lval = NULL;
     char *rval = NULL;
-
     if (lhs->data[0]=='+' && rhs->data[0]=='-') {
         lval = _tens_format(lhs->data+1, lhs->size-1, lp, left, right);
         rval = _tens_complement(rhs->data+1, rhs->size-1, rp, left, right);
@@ -27,7 +26,6 @@ _object_addition(ElyObject *lhs, ElyObject *rhs)
         lval = _tens_format(lhs->data+1, lhs->size-1, lp, left, right);
         rval = _tens_format(rhs->data+1, rhs->size-1, rp, left, right);
     }
-
     if (lval==NULL || rval==NULL) {
         goto exception;
     }
@@ -47,7 +45,8 @@ _object_addition(ElyObject *lhs, ElyObject *rhs)
 
     bool sign = !((lhs->data[0]=='-' && rhs->data[0]=='-') || 
                 (lhs->data[0]=='+' && rhs->data[0]=='-' && larger==0) ||
-                (lhs->data[0]=='-' && rhs->data[0]=='+' && larger==1));
+                (lhs->data[0]=='-' && rhs->data[0]=='+' && larger==1) ||
+                (larger == 2));
 
     if (lhs->data[0]+rhs->data[0]=='+'+'-' && sign) {
         result[0] = '+';
@@ -89,7 +88,7 @@ _object_addition(ElyObject *lhs, ElyObject *rhs)
     return object;
 
 exception:
-    raise(ObjectError, "cannot not add two objects");
+    raise(CalError, "<_object_addition> failed to add two objects");
     return NULL;
 }
 
@@ -99,6 +98,7 @@ _expand_string_from_head(char *data, long size, long longer)
 {
     char * const result = CALLOC(size+longer, char);
     if (result == NULL) {
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -108,7 +108,7 @@ _expand_string_from_head(char *data, long size, long longer)
     return result;
 
 exception:
-    raise(SystemError, "cannot allocate new memory");
+    raise(CalError, "<_expand_string_from_head> failed to expand string");
     return NULL;
 }
 
@@ -116,7 +116,6 @@ exception:
 static long
 _object_abs_larger(ElyObject *lhs, ElyObject *rhs)
 {
-
     long lp = _locate_decimal_point(lhs->data, lhs->size) - 1;
     long rp = _locate_decimal_point(rhs->data, rhs->size) - 1;
     if (lp==lhs->size+1 || rp==rhs->size+1) {
@@ -149,7 +148,7 @@ _object_abs_larger(ElyObject *lhs, ElyObject *rhs)
     return result;
 
 exception:
-    raise(ObjectError, "cannot compare two objects");
+    raise(CalError, "<_object_abs_larger> failed compare two objects' abslute vale");
     return -1;
 }
 
@@ -159,7 +158,7 @@ _aligned_number_add(char *lhs, char *rhs, long *size)
 {
     char * const result = CALLOC(*size, char);
     if (result == NULL) {
-        raise(SystemError, "cannot allocate new memory");
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -170,7 +169,6 @@ _aligned_number_add(char *lhs, char *rhs, long *size)
         if (lval == 10 || rval == 10) {
             goto exception;
         } else if ((lval=='.' && rval!='.') || (lval!='.' && rval=='.')) {
-            raise(ConvertError, "two numbers are not aligned");
             goto exception;
         }
 
@@ -181,7 +179,6 @@ _aligned_number_add(char *lhs, char *rhs, long *size)
             if ((carry = (temp>9))) {
                 temp %= 10;
             }
-
             result[i] = _int_to_char(temp);
         }
     }
@@ -201,7 +198,7 @@ _aligned_number_add(char *lhs, char *rhs, long *size)
     return result;
 
 exception:
-    raise(ObjectError, "cannot perform addition");
+    raise(CalError, "<_aligned_number_add> failed to perform addition");
     return NULL;
 }
 
@@ -211,7 +208,7 @@ _tens_format(char *data, long size, long point, long left, long right)
 {
     char * const result = CALLOC(left+right+1, char);
     if (result == NULL) {
-        raise(SystemError, "cannot allocate new memory");
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -236,7 +233,7 @@ _tens_format(char *data, long size, long point, long left, long right)
     return result;
 
 exception:
-    raise(ConvertError, "tens format failed");
+    raise(CvtError, "<_tens_format> failed to perform tens format");
     return NULL;
 }
 
@@ -246,7 +243,7 @@ _tens_complement(char *data, long size, long point, long left, long right)
 {
     char * const result = CALLOC(left+right+1, char);
     if (result == NULL) {
-        raise(SystemError, "cannot allocate new memory");
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -284,7 +281,7 @@ _tens_complement(char *data, long size, long point, long left, long right)
     return result;
 
 exception:
-    raise(ConvertError, "tens complement convertion failed");
+    raise(CalError, "<_tens_complement> failed to perform tens complement convertion");
     return NULL;
 }
 
@@ -297,5 +294,8 @@ _locate_decimal_point(char *data, long size)
             return i;
         }
     }
+
+exception:
+    raise(CalError, "<_locate_decimal_point> failed to find decimal point");
     return size;
 }

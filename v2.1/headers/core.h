@@ -3,10 +3,11 @@
 
 
 typedef enum ErrorType {
-    SystemError,
-    ObjectError,
-    ConvertError,
-    DeleteError,
+    SysError,
+    ObjError,
+    CvtError,
+    DelError,
+    CalError,
 } ErrorType;
 
 

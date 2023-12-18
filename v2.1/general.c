@@ -6,9 +6,9 @@ summarize(long *count, errors *errstk)
 {
     _print_error_free_mem(errstk);
     if (*count) {
-        printf(RED("[%zu] MEMORY LEAKS"), *count);
+        printf(RED("[%zu] MEMORY LEAKS\n"), *count);
     } else {
-        printf(GREEN("NO MEMORY LEAKS"));
+        printf(GREEN("NO MEMORY LEAKS\n"));
     }
 }
 
@@ -23,7 +23,7 @@ _int_to_char(int x)
     }
 
 exception:
-    raise(ConvertError, "cannot convert int to char");
+    raise(CvtError, "<_int_to_char> failed to convert int to char");
     return 10;
 }
 
@@ -40,6 +40,6 @@ _char_to_int(char x)
     }
 
 exception:
-    raise(ConvertError, "cannot convert char to int");
+    raise(CvtError, "<_char_to_int> cannot convert char to int");
     return 10;
 }

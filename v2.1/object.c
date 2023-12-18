@@ -6,7 +6,7 @@ _object_init(ElyType type)
 {
     ElyObject * const self = CALLOC(1, ElyObject);
     if (self == NULL) {
-        raise(SystemError, "cannot allocation new memory");
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -17,7 +17,7 @@ _object_init(ElyType type)
     return self;
 
 exception:
-    raise(ObjectError, "failed to initialize object");
+    raise(ObjError, "<_object_init> failed to initialize ElyObject");
     return NULL;
 }
 
@@ -30,13 +30,12 @@ _object_assign(ElyObject * const self, char *data, long size)
     }
 
     if (_delete_object_data(self) == false) {
-        raise(ObjectError, "unable to clear original container");
         goto exception;
     }
 
     self->data = CALLOC(size, char);
     if (self->data == NULL) {
-        raise(SystemError, "cannot allocation new memory");
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -48,7 +47,7 @@ _object_assign(ElyObject * const self, char *data, long size)
     return true;
 
 exception:
-    raise(ObjectError, "cannot assign the value");
+    raise(ObjError, "<_object_assign> failed to assign the value");
     return false;
 }
 
@@ -62,7 +61,6 @@ _data_check(ElyObject * const self, char *data, long size)
     } else if (self->type == STRING) {
         result = _string_check(data, size);
     } else {
-        raise(ObjectError, "invalid data typefor assign operation");
         goto exception;
     }
 
@@ -73,7 +71,7 @@ _data_check(ElyObject * const self, char *data, long size)
     return true;
 
 exception:
-    raise(ObjectError, "data check does not pass");
+    raise(ObjError, "<_data_check> data check does not pass");
     return false;
 }
 
@@ -82,13 +80,13 @@ static bool
 _number_check(char *data, long size)
 {
     if (size < 4) {
-        raise(ObjectError, "number should have length more than 4, i.e. +0.0");
+        raise(ObjError, "<_number_check> number require size > 4");
         goto exception;
     } else if (data[0]!='+' && data[0]!='-') {
-        raise(ObjectError, "sign is not identified");
+        raise(ObjError, "<_number_check> sign is not identified");
         goto exception;
     } else if (data[1]=='.' || data[size-1]=='.') {
-        raise(ObjectError, "invalid decimal point");
+        raise(ObjError, "<_number_check> invalid decimal point");
         goto exception;
     }
 
@@ -103,14 +101,13 @@ _number_check(char *data, long size)
     }
 
     if (decimal != true) {
-        raise(ObjectError, "number of decimal point should be one");
+        raise(ObjError, "<_number_check> less or more than one decimal point");
         goto exception;
     }
 
     return true;
 
 exception:
-    raise(ObjectError, "number check does not pass");
     return false;
 }
 
@@ -119,14 +116,13 @@ static bool
 _string_check(char *data, long size)
 {
     if (size < 1) {
-        raise(ObjectError, "string must have length more than one");
+        raise(ObjError, "<_string_check> string requires size > 1");
         goto exception;
     }
 
     return true;
 
 exception:
-    raise(ObjectError, "string check does not pass");
     return false;
 }
 
@@ -139,13 +135,12 @@ _object_store(ElyObject * const self, ElyObject **iter, long size)
     }
 
     if (_delete_object_iter(self) == false) {
-        raise(ObjectError, "unable to clear original container");
         goto exception;
     }
 
     self->iter = CALLOC(size, ElyObject *);
     if (self->iter==NULL) {
-        raise(SystemError, "cannot allocation new memory");
+        raise(SysError, "<calloc> failed to allocate new memory");
         goto exception;
     }
 
@@ -157,7 +152,7 @@ _object_store(ElyObject * const self, ElyObject **iter, long size)
     return true;
 
 exception:
-    raise(ObjectError, "unable to store the iterables");
+    raise(ObjError, "<_object_store> failed to store the iterables");
     return false;
 }
 
@@ -166,17 +161,16 @@ static bool
 _iter_check(ElyObject * const self, long size)
 {
     if (self->type != ITERABLE) {
-        raise(ObjectError, "invalid data typefor store operation");
+        raise(ObjError, "<_iter_check> invalid data type for store operation");
         goto exception;
     } else if (size < 1) {
-        raise(ObjectError, "iterable must have more than one value");
+        raise(ObjError, "<_iter_check> iterable requires size > 1");
         goto exception;
     }
 
     return true;
 
 exception:
-    raise(ObjectError, "iter check does not pass");
     return false;
 }
 
@@ -184,18 +178,12 @@ exception:
 bool
 _object_delete(ElyObject * const self)
 {
-    if (self == NULL) {
-        raise(DeleteError, "trying to free an NULL pointer");
-        goto exception;
-    }
-
     bool result = false;
     if (self->data && self->iter==NULL) {
         result = _delete_object_data(self);
     } else if (self->iter && self->data==NULL) {
         result = _delete_object_iter(self);
     } else {
-        raise(DeleteError, "trying to free an skeleton or invalid object");
         goto exception;
     }
 
@@ -207,7 +195,7 @@ _object_delete(ElyObject * const self)
     return true;
 
 exception:
-    raise(DeleteError, "unable to free object");
+    raise(DelError, "<_object_delete> failed to delete object");
     return false;
 }
 
@@ -234,7 +222,7 @@ _delete_object_iter(ElyObject * const self)
     return true;
 
 exception:
-    raise(DeleteError, "failed to delete object iterables");
+    raise(DelError, "<_delete_object_iter> failed to delete iterables");
     return false;
 }
 

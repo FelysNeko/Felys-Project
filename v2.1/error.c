@@ -14,7 +14,7 @@ _print_error_free_mem(errors *self)
 {
     while (self->top > -1) {
         ElyError *err = _pop_error(self);
-        printf(RED("+ %s: %s"), _get_error(err->type), err->msg);
+        printf("  "RED("%s")": %s\n", _get_error(err->type), err->msg);
         FREE(err);
     }
 }
@@ -24,10 +24,11 @@ static char const *
 _get_error(ErrorType type)
 {
     switch (type) {
-        case SystemError: return "SystemError";
-        case ObjectError: return "ObjectError";
-        case ConvertError: return "ConvertError";
-        case DeleteError: return "DeleteError";
+        case SysError: return "SysError";
+        case ObjError: return "ObjError";
+        case CvtError: return "CvtError";
+        case DelError: return "DelError";
+        case CalError: return "CalError";
         default: return "UnknownError";
     }
 }
@@ -38,7 +39,7 @@ _error_init(ErrorType type, char const *msg)
 {
     ElyError *err = CALLOC(1, ElyError);
     if (err == NULL) {
-        printf(RED("CRITICAL: cannot allocate memory for errors"));
+        printf(RED("CRITICAL: FAILED TO ALLOCATE EMEORY FOR ERRORS"));
         exit(1);
     }
     err->type = type;
@@ -53,7 +54,7 @@ _push_error(errors *self, ElyError * const err)
     if (self->top < SIZE-1) {
         self->data[++self->top] = err;
     } else {
-        printf(RED("CRITICAL: errors stack overflow"));
+        printf(RED("CRITICAL: ERROR STACK OVERFLOW"));
         exit(1);
     }
 }
@@ -65,7 +66,7 @@ _pop_error(errors *self)
     if (self->top > -1) {
         return self->data[self->top--];
     } else {
-        printf(RED("CRITICAL: errors stack invalid index"));
+        printf(RED("CRITICAL: ERROR STACK INVALID INDEX"));
         exit(1);
     }
 }
