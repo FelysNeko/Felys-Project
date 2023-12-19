@@ -4,6 +4,11 @@
 ElyObject *
 _object_addition(ElyObject *lhs, ElyObject *rhs)
 {
+    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
+        raise(CalError, "<_object_addition> both objects' type should be number");
+        goto exception;
+    }
+
     size_t const ldp = _locate_deci_point(lhs->data+1, lhs->size-1);
     size_t const rdp = _locate_deci_point(rhs->data+1, rhs->size-1);
     if ((ldp==lhs->size-1) || (rdp==rhs->size-1)) {
@@ -26,9 +31,9 @@ _object_addition(ElyObject *lhs, ElyObject *rhs)
 
     char *temp = NULL;
     if (lsgn > rsgn) {
-        raise(CalError, "operation not supported");
+        temp = _strnum_sub_fi(flhs, frhs, &size, &sign);
     } else if (lsgn < rsgn) {
-        raise(CalError, "operation not supported");
+        temp = _strnum_sub_fi(frhs, flhs, &size, &sign);
     } else {
         temp = _strnum_add_fi(flhs, frhs, &size);
         sign = lsgn;
@@ -127,7 +132,7 @@ _strnum_add_fi(char *lhs, char *rhs, size_t *sp)
             continue;
         }
 
-        size_t temp = lval + rval + carry;
+        int temp = lval + rval + carry;
         if ((carry = (temp>=10))) {
             temp %= 10;
         }
@@ -173,5 +178,111 @@ _strnum_insert_head_fi(char *data, size_t *sp, char c)
 
 exception:
     raise(CalError, "<_strnum_insert_head_fi> failed to insert char to front");
+    return NULL;
+}
+
+
+static char *
+_strnum_sub_fi(char *pos, char *neg, size_t *sp, bool *sign)
+{
+    size_t const size = *sp;
+    char * const result = CALLOC(size, char);
+    if (result == NULL) {
+        raise(SysError, "<calloc> failed to allocate new memory");
+        goto exception;
+    }
+
+    bool carry = false;
+    for (size_t i=size-1; 0<=i && i<=size-1; --i) {
+        size_t pval = _char_to_size_t(pos[i]);
+        size_t nval = _char_to_size_t(neg[i]);
+        if (pval==10 || nval==10) {
+            goto exception;
+        }
+
+        if (pval=='.' && nval=='.') {
+            result[i] = '.';
+            continue;
+        }
+
+        size_t temp = pval - nval - carry;
+        if ((carry = (temp>pval))) {
+            temp += 10;
+        }
+        result[i] = _size_t_to_char(temp);
+    }
+
+    FREE(pos);
+    FREE(neg);
+
+    if (carry) {
+        char * const alter = _strnum_complement_fi(result, size);
+        if (alter == NULL) {
+            goto exception;
+        }
+        *sign = false;
+        return alter;
+    }
+
+    return result;
+
+exception:
+    raise(CalError, "<_strnum_add_fi> failed to sub two strnum");
+    return NULL;
+
+}
+
+
+static char *
+_strnum_complement_fi(char *data, size_t size)
+{
+    char * const result = CALLOC(size, char);
+    if (result == NULL) {
+        raise(SysError, "<calloc> failed to allocate new memory");
+        goto exception;
+    }
+
+    bool carry = true;
+    for (size_t i=size-1; 0<=i && i<=size-1; --i) {
+        size_t temp = _char_to_size_t(data[i]);
+        if (temp == 10) {
+            goto exception;
+        }
+
+        if (temp == '.') {
+            result[i] = '.';
+            continue;
+        }
+
+        temp = 9 - temp + carry;
+        if ((carry = (temp>=10))) {
+            temp %= 10;
+        }
+        result[i] = _size_t_to_char(temp);
+    }
+
+    FREE(data);
+    return result;
+
+exception:
+    raise(CalError, "<_strnum_complement_fi> failed to perform complement operation");
+    return NULL;
+}
+
+
+ElyObject *
+_object_subtraction(ElyObject *lhs, ElyObject *rhs)
+{
+    rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
+    ElyObject * result = _object_addition(lhs, rhs);
+    if (result == NULL) {
+        goto exception;
+    }
+    rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
+
+    return result;
+
+exception:
+    raise(CalError, "<_object_addition> failed to minus two objects");
     return NULL;
 }

@@ -23,4 +23,5 @@ __object__ obj = {
 
 __calc__ calc = {
     .add = _object_addition,
+    .sub = _object_subtraction,
 };

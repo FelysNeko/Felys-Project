@@ -39,7 +39,7 @@ _error_init(ErrorType type, char const *msg)
 {
     ElyError *err = CALLOC(1, ElyError);
     if (err == NULL) {
-        printf(RED("CRITICAL: FAILED TO ALLOCATE EMEORY FOR ERRORS"));
+        printf(RED("CRITICAL: FAILED TO ALLOCATE EMEORY FOR ERRORS\n"));
         exit(1);
     }
     err->type = type;
@@ -54,7 +54,7 @@ _push_error(errors *self, ElyError * const err)
     if (self->top < SIZE-1) {
         self->data[++self->top] = err;
     } else {
-        printf(RED("CRITICAL: ERROR STACK OVERFLOW"));
+        printf(RED("CRITICAL: ERROR STACK OVERFLOW\n"));
         exit(1);
     }
 }
@@ -66,7 +66,7 @@ _pop_error(errors *self)
     if (self->top > -1) {
         return self->data[self->top--];
     } else {
-        printf(RED("CRITICAL: ERROR STACK INVALID INDEX"));
+        printf(RED("CRITICAL: ERROR STACK INVALID INDEX\n"));
         exit(1);
     }
 }
