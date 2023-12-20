@@ -2,7 +2,7 @@
 #define __DEFINE_H__
 
 
-#define SIZE 256
+#define SIZE 1024
 
 #define RED(msg) "\033[1;31m"msg"\033[0m"
 #define GREEN(msg) "\033[1;32m"msg"\033[0m"

@@ -2,6 +2,24 @@
 
 
 ElyObject *
+_object_subtraction(ElyObject *lhs, ElyObject *rhs)
+{
+    rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
+    ElyObject * result = _object_addition(lhs, rhs);
+    if (result == NULL) {
+        goto exception;
+    }
+    rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
+
+    return result;
+
+exception:
+    raise(CalError, "<_object_addition> failed to minus two objects");
+    return NULL;
+}
+
+
+ElyObject *
 _object_addition(ElyObject *lhs, ElyObject *rhs)
 {
     if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
@@ -266,23 +284,5 @@ _strnum_complement_fi(char *data, size_t size)
 
 exception:
     raise(CalError, "<_strnum_complement_fi> failed to perform complement operation");
-    return NULL;
-}
-
-
-ElyObject *
-_object_subtraction(ElyObject *lhs, ElyObject *rhs)
-{
-    rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
-    ElyObject * result = _object_addition(lhs, rhs);
-    if (result == NULL) {
-        goto exception;
-    }
-    rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
-
-    return result;
-
-exception:
-    raise(CalError, "<_object_addition> failed to minus two objects");
     return NULL;
 }

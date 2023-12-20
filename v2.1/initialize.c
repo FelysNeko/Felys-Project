@@ -5,11 +5,18 @@ size_t _counter = 0;
 size_t * const __count__ = &_counter;
 
 
-errors _error_stack = {
+ElyErrorstack _errorstack = {
     .data = {NULL},
     .top = -1
 };
-errors * const __error__ = &_error_stack;
+ElyErrorstack * const __error__ = &_errorstack;
+
+
+ElyCallstack _callstack = {
+    .data = {NULL},
+    .top = -1
+};
+ElyCallstack * const __stack__ =  &_callstack;
 
 
 __object__ obj = {

@@ -8,6 +8,7 @@ typedef enum ErrorType {
     CvtError,
     DelError,
     CalError,
+    StkError,
 } ErrorType;
 
 

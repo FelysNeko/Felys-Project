@@ -4,21 +4,21 @@
 #include "define.h"
 
 
-typedef struct errors {
+typedef struct ElyErrorstack {
     ElyError *data[SIZE];
     int top;
-} errors;
+} ElyErrorstack;
 
 
 void raise(ErrorType, char const *);
-void _print_error_free_mem(errors *);
+void _print_error_free_mem(ElyErrorstack *);
 static char const *_get_error(ErrorType);
 static ElyError *_error_init(ErrorType, char const *);
-static void _push_error(errors *, ElyError *);
-static ElyError *_pop_error(errors *);
+static void _push_error(ElyErrorstack *, ElyError *);
+static ElyError *_pop_error(ElyErrorstack *);
 
 
-extern errors _error_stack;
-extern errors * const __error__;
+extern ElyErrorstack _errorstack;
+extern ElyErrorstack * const __error__;
 
 #endif
