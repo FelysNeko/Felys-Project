@@ -5,7 +5,7 @@ int main(void)
 {
     ElyObject *a, *b, *r;
     EXEC(a = obj.init(NUMBER));
-    EXEC(obj.assign(a, "+12.54", 6));
+    EXEC(obj.assign(a, "-12.54", 6));
     EXEC(b = obj.init(NUMBER));
     EXEC(obj.assign(b, "+112.32", 7));
 

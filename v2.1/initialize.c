@@ -28,8 +28,14 @@ __object__ obj = {
 };
 
 
-__calc__ calc = {
+__calculate__ calc = {
     .add = _object_addition,
     .sub = _object_subtraction,
     .mul = _object_multiplcation,
+};
+
+
+__callstack__ stk = {
+    .pop = _pop_callstack,
+    .push = _push_callstack,
 };

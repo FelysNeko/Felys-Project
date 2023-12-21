@@ -17,4 +17,12 @@ extern ElyCallstack _callstack;
 extern ElyCallstack * const __stack___;
 
 
+typedef struct __callstack__ {
+    bool (*push)(ElyCallstack *, ElyObject *);
+    ElyObject *(*pop)(ElyCallstack *);
+} __callstack__;
+
+extern __callstack__ stk;
+
+
 #endif

@@ -2,6 +2,83 @@
 
 
 ElyObject *
+_object_multiplcation(ElyObject *lhs, ElyObject *rhs)
+{
+    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
+        raise(CalError, "<_object_multiplcation> both objects' type should be number");
+        goto exception;
+    }
+
+    size_t const rdp = _locate_deci_point(rhs->data+1, rhs->size-1);
+    if (rdp==rhs->size-1) {
+        goto exception;
+    }
+
+    ElyObject *result = _object_init(NUMBER);
+    if (result == NULL) {
+        goto exception;
+    }
+
+    if (_object_assign(result, "+0.0", 4) == false) {
+        goto exception;
+    }
+
+    char * const rd = rhs->data+1;
+    char * const ld = lhs->data+1;
+    size_t const rs = rhs->size-1;
+    size_t const ls = lhs->size-1;
+
+    for (size_t i=0, ts=ls; i<rs; ++i, ts=ls) {
+        if (rd[i] == '.') {
+            continue;
+        }
+
+        char * const temp = _strnum_multi_bychar(ld, &ts, rd[i]);
+        if (temp == NULL) {
+            goto exception;
+        }
+
+        char * const shifted = (i<rdp) ?
+        _strnum_shift_right_fi(temp, &ts, rdp-i-1) :
+        _strnum_shift_left_fi(temp, &ts, i-rdp);
+        if (shifted == NULL) {
+            goto exception;
+        }
+        
+        char * const data = (lhs->data[0]==rhs->data[0]) ?
+        _strnum_insert_head_fi(shifted, &ts, '+') :
+        _strnum_insert_head_fi(shifted, &ts, '-');
+        if (data == NULL) {
+            goto exception;
+        }
+
+        ElyObject * const each = _object_init(NUMBER);
+        if (each == NULL) {
+            goto exception;
+        }
+
+        if (_object_assign(each, data, ts) == false) {
+            goto exception;
+        }
+        FREE(data);
+
+        ElyObject *prev = result;
+        result = _object_addition(result, each);
+        
+        if (_object_delete(each)==false || _object_delete(prev)==false) {
+            goto exception;
+        }
+    }
+
+    return result;
+
+exception:
+    raise(CalError, "<_object_multiplcation> failed to multiply two objects");
+    return NULL;
+}
+
+
+ElyObject *
 _object_subtraction(ElyObject *lhs, ElyObject *rhs)
 {
     rhs->data[0] = (rhs->data[0]=='+') ? '-' : '+';
@@ -284,82 +361,6 @@ _strnum_complement_fi(char *data, size_t size)
 
 exception:
     raise(CalError, "<_strnum_complement_fi> failed to perform complement operation");
-    return NULL;
-}
-
-
-ElyObject *
-_object_multiplcation(ElyObject *lhs, ElyObject *rhs)
-{
-    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
-        raise(CalError, "<_object_multiplcation> both objects' type should be number");
-        goto exception;
-    }
-
-    size_t const rdp = _locate_deci_point(rhs->data+1, rhs->size-1);
-    if (rdp==rhs->size-1) {
-        goto exception;
-    }
-
-    bool const sign = (lhs->data[0]==rhs->data[0]);
-    ElyObject *result = _object_init(NUMBER);
-    if (result == NULL) {
-        goto exception;
-    }
-
-    if (_object_assign(result, "+0.0", 4) == false) {
-        goto exception;
-    }
-
-    char * const rd = rhs->data+1;
-    char * const ld = lhs->data+1;
-    size_t const rs = rhs->size-1;
-    size_t const ls = lhs->size-1;
-
-    for (size_t i=0, ts=ls; i<rs; ++i, ts=ls) {
-        if (rd[i] == '.') {
-            continue;
-        }
-
-        char * const temp = _strnum_multi_bychar(ld, &ts, rd[i]);
-        if (temp == NULL) {
-            goto exception;
-        }
-
-        char * const shifted = (i<rdp) ?
-        _strnum_shift_right_fi(temp, &ts, rdp-i-1) :
-        _strnum_shift_left_fi(temp, &ts, i-rdp);
-        if (shifted == NULL) {
-            goto exception;
-        }
-        
-        char * const data = _strnum_insert_head_fi(shifted, &ts, '+');
-        if (data == NULL) {
-            goto exception;
-        }
-
-        ElyObject * const each = _object_init(NUMBER);
-        if (each == NULL) {
-            goto exception;
-        }
-
-        if (_object_assign(each, data, ts) == false) {
-            goto exception;
-        }
-        FREE(data);
-
-        ElyObject *prev = result;
-        result = _object_addition(result, each);
-        
-        if (_object_delete(each)==false || _object_delete(prev)==false) {
-            goto exception;
-        }
-    }
-
-    return result;
-
-exception:
-    raise(CalError, "<_object_multiplcation> failed to multiply two objects");
     return NULL;
 }
 

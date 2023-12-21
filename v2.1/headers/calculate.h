@@ -15,13 +15,13 @@ static char *_strnum_multi_bychar(char *, size_t *, char);
 static char *_strnum_shift_right_fi(char *, size_t *, size_t);
 static char *_strnum_shift_left_fi(char *, size_t *, size_t);
 
-typedef struct __calc__ {
+typedef struct __calculate__ {
     ElyObject *(*add)(ElyObject *, ElyObject *);
     ElyObject *(*sub)(ElyObject *, ElyObject *);
     ElyObject *(*mul)(ElyObject *, ElyObject *);
-} __calc__;
+} __calculate__;
 
-extern __calc__ calc;
+extern __calculate__ calc;
 
 
 #endif
