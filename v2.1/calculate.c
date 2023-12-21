@@ -495,3 +495,148 @@ exception:
     raise(CalError, "<_strnum_shift_left> failed to shift strnum");
     return NULL;
 }
+
+
+static size_t
+_object_comapare(ElyObject *lhs, ElyObject *rhs)
+{
+    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
+        raise(CalError, "<_object_compare> both objects' type should be number");
+        goto exception;
+    }
+
+    bool const lsgn = (lhs->data[0]=='+');
+    bool const rsgn = (rhs->data[0]=='+');
+
+    if (lsgn && !rsgn) {
+        return 1;
+    } else if (!lsgn && rsgn) {
+        return 2;
+    }
+
+    size_t const ldp = _locate_deci_point(lhs->data+1, lhs->size-1);
+    size_t const rdp = _locate_deci_point(rhs->data+1, rhs->size-1);
+    if ((ldp==lhs->size-1) || (rdp==rhs->size-1)) {
+        goto exception;
+    }
+    
+    size_t const left = MAX(ldp, rdp);
+    size_t const right = MAX(lhs->size-ldp-2, rhs->size-rdp-2);
+    size_t size = left + right +1;
+
+    char * const flhs = _strnum_align(lhs->data+1, lhs->size-1, ldp, left, right);
+    char * const frhs = _strnum_align(rhs->data+1, rhs->size-1, rdp, left, right);
+    if (flhs==NULL || frhs==NULL) {
+        goto exception;
+    }
+
+    for (size_t i=0; i<size; ++i) {
+        if (flhs[i] > frhs[i]) {
+            FREE(flhs);
+            FREE(frhs);
+            return lsgn ? 1 : 2;
+        } else if (flhs[i] < frhs[i]) {
+            FREE(flhs);
+            FREE(frhs);
+            return lsgn ? 2 : 1;
+        }
+    }
+
+    FREE(flhs);
+    FREE(frhs);
+    return 0;
+
+exception:
+    raise(CalError, "<_object_comapare>, failed to compare two strnum");
+    return 4;
+}
+
+
+ElyObject *
+_object_larger(ElyObject *lhs, ElyObject *rhs)
+{
+    size_t const value = _object_comapare(lhs, rhs);
+
+    ElyObject * const result = _object_init(NUMBER);
+    if (result == NULL) {
+        goto exception;
+    }
+
+    if (value == 4) {
+        goto exception;
+    } else if (value == 1) {
+        if (_object_assign(result, "+1.0", 4) == false) {
+            goto exception;
+        }
+    } else {
+        if (_object_assign(result, "+0.0", 4) == false) {
+            goto exception;
+        }
+    }
+
+    return result;
+
+exception:
+    raise(CalError, "<_object_larger> failed to tell whether lhs is larger then rhs");
+    return NULL;
+}
+
+
+ElyObject *
+_object_smaller(ElyObject *lhs, ElyObject *rhs)
+{
+    size_t const value = _object_comapare(lhs, rhs);
+
+    ElyObject * const result = _object_init(NUMBER);
+    if (result == NULL) {
+        goto exception;
+    }
+
+    if (value == 4) {
+        goto exception;
+    } else if (value == 2) {
+        if (_object_assign(result, "+1.0", 4) == false) {
+            goto exception;
+        }
+    } else {
+        if (_object_assign(result, "+0.0", 4) == false) {
+            goto exception;
+        }
+    }
+
+    return result;
+
+exception:
+    raise(CalError, "<_object_smaller> failed to tell whether lhs is smaller then rhs");
+    return NULL;
+}
+
+
+ElyObject *
+_object_equal(ElyObject *lhs, ElyObject *rhs)
+{
+    size_t const value = _object_comapare(lhs, rhs);
+
+    ElyObject * const result = _object_init(NUMBER);
+    if (result == NULL) {
+        goto exception;
+    }
+
+    if (value == 4) {
+        goto exception;
+    } else if (value == 0) {
+        if (_object_assign(result, "+1.0", 4) == false) {
+            goto exception;
+        }
+    } else {
+        if (_object_assign(result, "+0.0", 4) == false) {
+            goto exception;
+        }
+    }
+
+    return result;
+
+exception:
+    raise(CalError, "<_object_equal> failed to tell whether lhs is equal to rhs");
+    return NULL;
+}

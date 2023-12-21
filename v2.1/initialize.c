@@ -39,6 +39,9 @@ __calculate__ calc = {
     .add = _object_addition,
     .sub = _object_subtraction,
     .mul = _object_multiplcation,
+    .lgr = _object_larger,
+    .smr = _object_smaller,
+    .eql = _object_equal,
 };
 
 

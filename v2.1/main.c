@@ -5,11 +5,11 @@ int main(void)
 {
     ElyObject *a, *b, *r;
     EXEC(a = obj.init(NUMBER));
-    EXEC(obj.assign(a, "-12.54", 6));
+    EXEC(obj.assign(a, "+2.0", 4));
     EXEC(b = obj.init(NUMBER));
-    EXEC(obj.assign(b, "+112.32", 7));
+    EXEC(obj.assign(b, "-0.0", 4));
 
-    EXEC(r = calc.mul(a, b));
+    EXEC(r = calc.lgr(a, b));
     obj.print(r, '\n');
 
     EXEC(obj.del(a));
