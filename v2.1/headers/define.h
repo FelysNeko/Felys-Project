@@ -19,6 +19,7 @@ do {\
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define SWAP(a, b, type) do {type (x)=(a); (a)=(b); (b)=(x);} while(0)
 
 
 extern size_t _counter;
