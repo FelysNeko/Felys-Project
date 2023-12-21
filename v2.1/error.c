@@ -10,7 +10,7 @@ raise(ErrorType type, char const * msg)
 
 
 void 
-_print_error_free_mem(ElyErrorstack *self)
+_print_error_free_mem(ErrorStack *self)
 {
     while (self->top > -1) {
         ElyError *err = _pop_error(self);
@@ -50,7 +50,7 @@ _error_init(ErrorType type, char const *msg)
 
 
 static void
-_push_error(ElyErrorstack *self, ElyError * const err)
+_push_error(ErrorStack *self, ElyError * const err)
 {
     if (self->top < SIZE-1) {
         self->data[++self->top] = err;
@@ -62,7 +62,7 @@ _push_error(ElyErrorstack *self, ElyError * const err)
 
 
 static ElyError *
-_pop_error(ElyErrorstack *self)
+_pop_error(ErrorStack *self)
 {
     if (self->top > -1) {
         return self->data[self->top--];

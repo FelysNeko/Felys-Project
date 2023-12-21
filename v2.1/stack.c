@@ -2,7 +2,7 @@
 
 
 bool 
-_push_callstack(ElyCallstack *cstk, ElyObject *data)
+_push_stack(ElyStack *cstk, ElyObject *data)
 {
     if (cstk->top < SIZE-1) {
         cstk->data[++cstk->top] = data;
@@ -10,19 +10,19 @@ _push_callstack(ElyCallstack *cstk, ElyObject *data)
     }
 
 exception:
-    raise(StkError, "<_push_callstack> callstack overflow");
+    raise(StkError, "<_push_stack> callstack overflow");
     return false;
 }
 
 
 ElyObject * 
-_pop_callstack(ElyCallstack *cstk)
+_pop_stack(ElyStack *cstk)
 {
     if (cstk->top > -1) {
         return cstk->data[cstk->top--];
     }
 
 exception:
-    raise(StkError, "<_pop_callstack> callstack is empty");
+    raise(StkError, "<_pop_stack> callstack is empty");
     return NULL;
 }

@@ -2,7 +2,7 @@
 
 
 void
-summarize(size_t *count, ElyErrorstack *errstk)
+summarize(size_t *count, ErrorStack *errstk)
 {
     _print_error_free_mem(errstk);
     if (*count) {

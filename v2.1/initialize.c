@@ -5,18 +5,25 @@ size_t _counter = 0;
 size_t * const __count__ = &_counter;
 
 
-ElyErrorstack _errorstack = {
+ErrorStack _errorstack = {
     .data = {NULL},
     .top = -1
 };
-ElyErrorstack * const __error__ = &_errorstack;
+ErrorStack * const __error__ = &_errorstack;
 
 
-ElyCallstack _callstack = {
+ElyStack _callstack = {
     .data = {NULL},
     .top = -1
 };
-ElyCallstack * const __stack__ =  &_callstack;
+ElyStack * const __callstk___ =  &_callstack;
+
+
+ElyStack _varstack = {
+    .data = {NULL},
+    .top = -1
+};
+ElyStack * const __varstk___ =  &_varstack;
 
 
 __object__ obj = {
@@ -35,7 +42,7 @@ __calculate__ calc = {
 };
 
 
-__callstack__ stk = {
-    .pop = _pop_callstack,
-    .push = _push_callstack,
+__stack__ stk = {
+    .pop = _pop_stack,
+    .push = _push_stack,
 };
