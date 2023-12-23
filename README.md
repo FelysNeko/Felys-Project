@@ -3,7 +3,7 @@
 Simple Interpreter - exploration in Postfix Notation and C Object Orientation
 
 * [Prototype](#prototype)
-* [Current](#current)
+* [Current](#current-version)
 * [Future](#future)
 
 ## Prototype
