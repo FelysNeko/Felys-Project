@@ -8,7 +8,7 @@ ElyObject *_object_multiplcation(ElyObject *, ElyObject *);
 ElyObject *_object_larger(ElyObject *, ElyObject *);
 ElyObject *_object_smaller(ElyObject *, ElyObject *);
 ElyObject *_object_equal(ElyObject *, ElyObject *);
-static size_t _object_comapare(ElyObject *, ElyObject *);
+static size_t _strnum_comapare(ElyObject *, ElyObject *);
 static char *_strnum_align(char *, size_t, size_t, size_t, size_t);
 static char *_strnum_add_fi(char *, char *, size_t *);
 static char *_strnum_sub_fi(char *, char *, size_t *, bool *);
@@ -18,6 +18,7 @@ static char *_strnum_complement_fi(char *, size_t);
 static char *_strnum_multi_bychar(char *, size_t *, char);
 static char *_strnum_shift_right_fi(char *, size_t *, size_t);
 static char *_strnum_shift_left_fi(char *, size_t *, size_t);
+static bool _string_compare(ElyObject *, ElyObject *);
 
 
 typedef struct __calculate__ {

@@ -16,14 +16,14 @@ ElyStack _callstack = {
     .data = {NULL},
     .top = -1
 };
-ElyStack * const __callstk___ =  &_callstack;
+ElyStack * const __callstk__ =  &_callstack;
 
 
 ElyStack _varstack = {
     .data = {NULL},
     .top = -1
 };
-ElyStack * const __varstk___ =  &_varstack;
+ElyStack * const __varstk__ =  &_varstack;
 
 
 __object__ obj = {

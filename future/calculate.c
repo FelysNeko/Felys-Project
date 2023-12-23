@@ -498,13 +498,8 @@ exception:
 
 
 static size_t
-_object_comapare(ElyObject *lhs, ElyObject *rhs)
+_strnum_comapare(ElyObject *lhs, ElyObject *rhs)
 {
-    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
-        raise(CalError, "<_object_compare> both objects' type should be number");
-        goto exception;
-    }
-
     bool const lsgn = (lhs->data[0]=='+');
     bool const rsgn = (rhs->data[0]=='+');
 
@@ -547,7 +542,7 @@ _object_comapare(ElyObject *lhs, ElyObject *rhs)
     return 0;
 
 exception:
-    raise(CalError, "<_object_comapare>, failed to compare two strnum");
+    raise(CalError, "<_strnum_comapare>, failed to compare two strnum");
     return 4;
 }
 
@@ -555,8 +550,12 @@ exception:
 ElyObject *
 _object_larger(ElyObject *lhs, ElyObject *rhs)
 {
-    size_t const value = _object_comapare(lhs, rhs);
+    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
+        raise(CalError, "<_object_larger> both object types should be number");
+        goto exception;
+    }
 
+    size_t const value = _strnum_comapare(lhs, rhs);
     ElyObject * const result = _object_init(NUMBER);
     if (result == NULL) {
         goto exception;
@@ -585,8 +584,12 @@ exception:
 ElyObject *
 _object_smaller(ElyObject *lhs, ElyObject *rhs)
 {
-    size_t const value = _object_comapare(lhs, rhs);
+    if (lhs->type!=NUMBER || rhs->type!=NUMBER) {
+        raise(CalError, "<_object_smaller> both object types should be number");
+        goto exception;
+    }
 
+    size_t const value = _strnum_comapare(lhs, rhs);
     ElyObject * const result = _object_init(NUMBER);
     if (result == NULL) {
         goto exception;
@@ -615,7 +618,17 @@ exception:
 ElyObject *
 _object_equal(ElyObject *lhs, ElyObject *rhs)
 {
-    size_t const value = _object_comapare(lhs, rhs);
+    size_t value = 4;
+    if (lhs->type==NUMBER && rhs->type==NUMBER) {
+        value = _strnum_comapare(lhs, rhs);
+    } else if (lhs->type==STRING && rhs->type==STRING) {
+        value = _string_compare(lhs, rhs);
+    } else if (lhs->type==ITERABLE && rhs->type==ITERABLE) {
+        ;
+    } else {
+        raise(CalError, "<_object_equal> cannot compare different types");
+        goto exception;
+    }
 
     ElyObject * const result = _object_init(NUMBER);
     if (result == NULL) {
@@ -639,4 +652,22 @@ _object_equal(ElyObject *lhs, ElyObject *rhs)
 exception:
     raise(CalError, "<_object_equal> failed to tell whether lhs is equal to rhs");
     return NULL;
+}
+
+
+static bool
+_string_compare(ElyObject *lhs, ElyObject *rhs)
+{
+    if (lhs->size != rhs->size) {
+        return false;
+    }
+
+    size_t cap = MIN(lhs->size, rhs->size);
+    for (size_t i=0; i>cap; ++i) {
+        if (lhs->data[i]!=rhs->data[i]) {
+            return false;
+        }
+    }
+    
+    return true;
 }

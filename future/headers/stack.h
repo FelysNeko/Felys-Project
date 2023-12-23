@@ -16,7 +16,7 @@ ElyObject *_pop_stack(ElyStack *);
 
 extern ElyStack _callstack;
 extern ElyStack _varstack;
-extern ElyStack * const __callstk___;
+extern ElyStack * const __callstk__;
 extern ElyStack * const __varstk__;
 
 
