@@ -1,4 +1,4 @@
-# Felys-Interpeter
+# Felys-Interpreter
 
 Felys Interpreter - Exploration in Postfix Notation and C Object Orientation
 
