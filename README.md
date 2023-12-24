@@ -1,10 +1,11 @@
 # Felys-Interpeter
 
-Simple Interpreter - exploration in Postfix Notation and C Object Orientation
+Felys Interpreter - Exploration in Postfix Notation and C Object Orientation
 
 * [Prototype](#prototype)
-* [Current](#current-version)
-* [Future](#future)
+* [Current Version](#current-version)
+* [Future Features](#future-features)
+* [Additional Infomation](#additional-information)
 
 ## Prototype
 This folder contains the source file of elementary implementation of postfix notation and variable storage. You can compile it by `clang interpreter.c -o felys` and then execute it by `./felys workplace.ely`. You may find a demo in [prototype/workplace.ely](prototype/workplace.ely).
@@ -21,7 +22,7 @@ This folder contains the source file of elementary implementation of postfix not
 
 
 ## Current Version
-Run `make` To compile (using clang) the program and create a temperary folder for `.o` files. You can find this script in my other repo: [Code-Collection](https://github.com/Jhanny-Kin/Code-Collection/blob/main/Make/makefile), modify the top four variables to customize the script. You can execute it by `./felys workplace.ely` or `./felys workplace.ely debug` for debugging output. You may find a heaviside function demo in [felys/workplace.ely](felys/workplace.ely). There is the [disign explanation(CHN)](https://www.bilibili.com/read/readlist/rl738985).
+Run `make` To compile (using clang) the program and create a temperary folder for `.o` files. You can find this script in my other repo: [Code-Collection](https://github.com/Jhanny-Kin/Code-Collection/blob/main/Make/makefile), modify the top four variables to customize the script. You can execute it by `./felys workplace.ely` or `./felys workplace.ely debug` for debugging output. You may find a heaviside function demo in [felys/workplace.ely](felys/workplace.ely). Here is the [disign explanation(CHN)](https://www.bilibili.com/read/readlist/rl738985).
 
 ### Operation
 * arithmatic: `+` `-` `*` `/`
@@ -54,10 +55,10 @@ typedef struct Command {
 } cmd;
 ```
 
-## Future
+## Future Features
 You also use `make` to compile the program. This only contains some features related to **object orientation**, **error handling**, **memory tracking**, **namespace**, and **string-style number calculation**, meaning that it is not completed. You need to modify the [future/main.c](future/main.c) file and recompile to test those features, then you can run `./felys` to see the output. 
 
-If all the feature all implemented, the new interpreter will be dynamic typing and can calculate almost infinitly large numbers. However, as a first-year university student, I really lack in-depth knowledge related to programming language and compiler, so I think it would be a good idea to stop here. I will definitly come back to finish this program in the future, but for now, I have to move on with my school work and co-op. The followings are some key designs. Since they are extremely complicated, I won't explain them here.
+If all the features all implemented, the new interpreter will be dynamic typing and can calculate almost infinitly large numbers. However, as a first-year university student, I really lack in-depth knowledge related to programming language and compiler, so I think it would be a good idea to stop here. I will definitly come back to finish this program in the future, but for now, I have to move on with my school work and co-op. The followings are some **key designs**. Since they are extremely complicated, I won't explain them here.
 
 ### ElyObject
 ```C
@@ -79,8 +80,8 @@ typedef struct __object__ {
     void (*print)(ElyObject *, char);
 } __object__;
 
-
 extern __object__ obj;
+
 
 typedef struct __calculate__ {
     ElyObject *(*add)(ElyObject *, ElyObject *);
@@ -130,3 +131,7 @@ extern ErrorStack * const __error__;
 extern size_t _counter;
 extern size_t * const __count__;
 ```
+
+
+## Additional Information
+The name "felys" is a combination of my two favourite game characters **Pardofelis** and **Elysia** (both from Honkai Impact 3rd).
