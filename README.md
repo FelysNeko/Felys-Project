@@ -2,6 +2,8 @@
 
 Felys Interpreter - Exploration in Postfix Notation and C Object Orientation
 
+**This repository is unlikely to be updated until I finish the compiler course in the third year. It is not hard to self-learn porgramming, but I don't think it would be a good idea to learn in-depth computer science knowledge on YouTube.**
+
 * [Prototype](#prototype)
 * [Current Version](#current-version)
 * [Future Features](#future-features)
