@@ -1,0 +1,9 @@
+/Users/jhannykin/Documents/GitHub/Felys-Project/parser/target/debug/deps/libanstyle_parse-3747a486b4fccad1.rmeta: /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/lib.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/params.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/mod.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/definitions.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/table.rs
+
+/Users/jhannykin/Documents/GitHub/Felys-Project/parser/target/debug/deps/anstyle_parse-3747a486b4fccad1.d: /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/lib.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/params.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/mod.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/definitions.rs /Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/table.rs
+
+/Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/lib.rs:
+/Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/params.rs:
+/Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/mod.rs:
+/Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/definitions.rs:
+/Users/jhannykin/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anstyle-parse-0.2.3/src/state/table.rs:
