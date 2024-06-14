@@ -1,3 +1,3 @@
-# Felys-Project 
+# Felys Project 
 
-C implementation (deprecated) of Felys-Interpreter and some other testing components.
+Deprecated C implementation of [Felys-Interpreter](https://github.com/FelysNeko/Felys-Interpreter) and some other testing components.
